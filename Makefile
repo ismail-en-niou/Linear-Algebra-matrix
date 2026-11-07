@@ -7,8 +7,11 @@ ex00: ex00/main.cpp includes/Vector.hpp  includes/Matrix.hpp
 ex01: ex01/main.cpp includes/Vector.hpp  includes/Matrix.hpp
 	$(CXX) $(CXXFLAGS) ex01/main.cpp -o ex01/ex01
 
+ex02: ex02/main.cpp includes/Vector.hpp includes/Matrix.hpp includes/Lerp.hpp
+	$(CXX) $(CXXFLAGS) ex02/main.cpp -o ex02/ex02
+
 clean:
-	rm -f ex00/ex00 ex01/ex01
+	rm -f ex00/ex00 ex01/ex01 ex02/ex02
 
 fclean: clean
 

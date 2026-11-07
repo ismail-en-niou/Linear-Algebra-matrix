@@ -1,16 +1,16 @@
 #pragma once
-using namespace std;
 
 #include <iostream>
 #include <vector>
 #include <cmath>
+#include <stdexcept>
 
 template <typename K>
 class Vector{
     private:
-        vector<K> _data;
+        std::vector<K> _data;
     public:
-        Vector(initializer_list <K> _values): _data(_values){}
+        Vector(std::initializer_list<K> _values): _data(_values){}
         explicit Vector(size_t n) : _data(n, K()) {}
 
         K       &operator[](size_t i)       { return _data[i]; }

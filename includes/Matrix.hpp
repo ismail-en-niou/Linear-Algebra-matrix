@@ -1,6 +1,5 @@
 #pragma once 
 
-using namespace std;
 
 #include <vector>
 #include <iostream>
@@ -8,10 +7,13 @@ using namespace std;
 template <typename K>
 class Matrix{
     private:
-        vector<vector<K>> _data;
+        std::vector<std::vector<K>> _data;
     public:
         
-        Matrix(std::initializer_list<std::initializer_list<K>> values): _data(values.begin(), values.end()) {}
+        Matrix(std::initializer_list<std::initializer_list<K>> values) {
+            for (const auto& row : values)
+                _data.emplace_back(row);
+        }
         void print(){
             for (size_t i = 0; i < _data.size(); i++) {
                 for (size_t j = 0; j < _data[i].size(); j++) {
@@ -38,5 +40,5 @@ class Matrix{
                 for (size_t j = 0 ; j < _data[i].size() ;j++)
                     _data[i][j] = _data[i][j] * num;
         }
-        vector<K> &operator[](size_t i) {return _data[i];}
+        std::vector<K> &operator[](size_t i) {return _data[i];}
 };
