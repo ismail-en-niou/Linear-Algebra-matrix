@@ -4,49 +4,92 @@
 #include <vector>
 #include <cmath>
 #include <stdexcept>
+using namespace std;
 
 template <typename K>
-class Vector{
-    private:
-        std::vector<K> _data;
-    public:
-        Vector(std::initializer_list<K> _values): _data(_values){}
-        explicit Vector(size_t n) : _data(n, K()) {}
+class Vector
+{
+private:
+    std::vector<K> _data;
 
-        K       &operator[](size_t i)       { return _data[i]; }
-        const K &operator[](size_t i) const { return _data[i]; }
-        
-        K getValue(size_t i){return _data[i];}
-        
-        size_t getSize() const {return _data.size();}
+public:
+    Vector(std::initializer_list<K> _values) : _data(_values) {}
+    explicit Vector(size_t n) : _data(n, K()) {}
 
-        void add(Vector<K> &others){
-            for (size_t i = 0 ; i < _data.size() ;i++)
-                _data[i] = _data[i] + others[i];
-        }
+    K &operator[](size_t i) { return _data[i]; }
+    const K &operator[](size_t i) const { return _data[i]; }
 
-        void sub(Vector<K> &_others){
-            for (size_t i = 0 ; i < _data.size() ;i++)
-                _data[i] = _data[i] - _others[i];
-        }
-        void scl(K num)
+    K getValue(size_t i) { return _data[i]; }
+
+    size_t getSize() const { return _data.size(); }
+
+    void add(Vector<K> &others)
+    {
+        for (size_t i = 0; i < _data.size(); i++)
+            _data[i] = _data[i] + others[i];
+    }
+
+    void sub(Vector<K> &_others)
+    {
+        for (size_t i = 0; i < _data.size(); i++)
+            _data[i] = _data[i] - _others[i];
+    }
+    void scl(K num)
+    {
+        for (size_t i = 0; i < _data.size(); i++)
+            _data[i] = _data[i] * num;
+    }
+
+    void print() const
+    {
+        for (size_t i = 0; i < _data.size(); i++)
         {
-            for (size_t i = 0 ; i < _data.size() ;i++)
-                _data[i] = _data[i] * num;
+            if (_data[i] == (int)_data[i])
+                std::cout << "[" << _data[i] << ".0]" << std::endl;
+            else
+                std::cout << "[" << _data[i] << "]" << std::endl;
         }
+    }
 
-        void print() const {
-            for (size_t i = 0; i < _data.size(); i++) {
-                if (_data[i] == (int)_data[i])
-                    std::cout << "[" << _data[i] << ".0]" << std::endl;
-                else
-                    std::cout << "[" << _data[i] << "]" << std::endl;
-            }
-        }
+    K dot(const Vector<K> &u) const
+    {
+        if (u.getSize() != this->getSize())
+            throw std::invalid_argument("Vectors must have the same dimension!");
+        K result = K{};
+        for (size_t i = 0; i < getSize(); i++)
+            result += u[i] * (*this)[i];
+        return result;
+    }
+
+    float norm_1() const
+    {
+        float result = 0;
+        for (size_t i = 0; i < _data.size(); i++)
+            result = result + myAbs(_data[i]);
+        return result;
+    }
+
+    float norm() const
+    {
+        return std::pow(dot(*this), 0.5f);
+    }
+
+    float norm_inf() const
+    {
+        float result = 0;
+        for (size_t i = 0; i < _data.size(); i++)
+            result = std::max(result, myAbs(_data[i]));
+        return result;
+    }
 };
+template <typename K>
+K myAbs(K x)
+{
+    return x > 0 ? x : -x;
+}
 
 template <typename K>
-Vector<K> linear_combination(const std::vector<Vector<K>> &vectors, const std::vector<K> &coefficients) 
+Vector<K> linear_combination(const std::vector<Vector<K>> &vectors, const std::vector<K> &coefficients)
 {
     if (vectors.size() != coefficients.size() || vectors.empty())
         throw std::invalid_argument("Vectors and coefficients must have the same size.");

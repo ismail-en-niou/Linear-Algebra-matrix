@@ -12,7 +12,6 @@ int main() {
     Vector<float> result = linear_combination(vectors, coefficients);
     result.print();                      // [10.0] [-2.0] [0.5]
 
-    // Subject example 2
     Vector<float> v1 = {1, 2, 3};
     Vector<float> v2 = {0, 10, -100};
 

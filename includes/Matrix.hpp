@@ -41,4 +41,4 @@ class Matrix{
                     _data[i][j] = _data[i][j] * num;
         }
         std::vector<K> &operator[](size_t i) {return _data[i];}
-};
+}; 
